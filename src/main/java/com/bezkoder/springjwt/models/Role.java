@@ -1,7 +1,7 @@
 package com.bezkoder.springjwt.models;
 
-import javax.persistence.*;
 
+import javax.persistence.*;
 @Entity
 @Table(name = "roles")
 public class Role {
