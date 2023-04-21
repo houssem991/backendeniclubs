@@ -1,16 +1,16 @@
-package com.bezkoder.springjwt.services;
+package com.bezkoder.springjwt.Services;
 
-import com.bezkoder.springjwt.payload.response.UserResponse;
+import com.bezkoder.springjwt.models.User;
+
 
 import java.util.List;
 
 public interface IUserService {
 
-    List<UserResponse> findall();
-    List<UserResponse> findallCandidat();
+    List<User> findall();
 
-    UserResponse findbyId(Long id);
-    UserResponse findbyUsername(String username);
-  String Validation(Long id);
+    User findbyId(Long id);
+
+
     void delete (Long id );
 }

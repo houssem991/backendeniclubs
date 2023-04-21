@@ -1,18 +1,19 @@
 package com.bezkoder.springjwt.Services;
 
 
-import com.bezkoder.springjwt.models.Clubs;
+import com.bezkoder.springjwt.models.Events_Materiel;
 import com.bezkoder.springjwt.models.Materiel;
-import com.bezkoder.springjwt.payload.request.ClubsRequest;
+import com.bezkoder.springjwt.payload.request.EventMaterielRequest;
 import com.bezkoder.springjwt.payload.request.MaterielRequest;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface IMaterielService {
+public interface IEventMaterielService {
 
-    List<Materiel> findall();
-    Materiel findbyId(Long id);
-    void add(MaterielRequest v);
-    void update (Long id , MaterielRequest v);
-    void delete (Long id);
+    List<Events_Materiel> findall();
+    Optional<Events_Materiel> findbyId(Long idevent,Long idMateriel);
+    void add(EventMaterielRequest v);
+    void update (Long id , EventMaterielRequest v);
+    void delete (Long idevent,Long idMateriel);
 }

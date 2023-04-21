@@ -4,9 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @AllArgsConstructor
@@ -14,22 +11,18 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @Getter
 @Setter
-@Entity
-@Table(name = "Events_Materiel")
-public class Events_Materiel implements Serializable {
-  @Id
-  @ManyToOne()
-  @JsonIgnore
-  @JoinColumn(name = "Event_id")
-  private Events events;
-  @Id
-  @ManyToOne()
-  @JsonIgnore
-  @JoinColumn(name = "materiel_id")
-  private Materiel materiel;
+@Embeddable
+public class Events_MaterielId implements Serializable {
 
-int quantite;
-  public Events_Materiel() {
+
+  @JoinColumn(name = "Event_id")
+  private Long events;
+
+
+  @JoinColumn(name = "materiel_id")
+  private Long materiel;
+
+  public Events_MaterielId() {
   }
 
 

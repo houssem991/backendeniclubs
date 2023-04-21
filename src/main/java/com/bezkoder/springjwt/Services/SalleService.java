@@ -1,11 +1,9 @@
 package com.bezkoder.springjwt.Services;
 
 
-import com.bezkoder.springjwt.models.Clubs;
-import com.bezkoder.springjwt.models.Clubs;
-import com.bezkoder.springjwt.payload.request.ClubsRequest;
-import com.bezkoder.springjwt.repository.ClubsRepository;
-import com.bezkoder.springjwt.repository.ClubsRepository;
+import com.bezkoder.springjwt.models.Salle;
+import com.bezkoder.springjwt.payload.request.SalleRequest;
+import com.bezkoder.springjwt.repository.SalleRepository;
 import com.bezkoder.springjwt.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,51 +12,49 @@ import java.util.List;
 
 
 @Service
-public class ClubService implements IClubService {
+public class SalleService implements ISalleService {
     
     @Autowired
-    ClubsRepository clubsRepository;
+    SalleRepository salleRepository;
     @Autowired
     UserRepository userRepository;
     
 
     @Override
-    public List<Clubs> findall() {
-        return clubsRepository.findAll();
+    public List<Salle> findall() {
+        return salleRepository.findAll();
     }
 
     @Override
-    public Clubs findbyId(Long id) {
-        return (Clubs) clubsRepository.findById(id).get();
+    public Salle findbyId(Long id) {
+        return (Salle) salleRepository.findById(id).get();
     }
 
 
 
 
     @Override
-    public void add(ClubsRequest v) {
-        Clubs clubs = new Clubs();
-       clubs.setName(v.getName());
-       clubs.setNbmembers(v.getNbmembers());
-       clubs.setUser(userRepository.findById(v.getIdresp()).get());
-        clubsRepository.save(clubs);
+    public void add(SalleRequest v) {
+        Salle salle = new Salle();
+       salle.setName(v.getName());
+    salle.setLocal(v.getLocal());
+        salleRepository.save(salle);
 
     }
 
     @Override
-    public void update(Long id, ClubsRequest v) {
-        Clubs clubs = clubsRepository.findById(id).get();
-        clubs.setName(v.getName());
-        clubs.setNbmembers(v.getNbmembers());
-        clubs.setUser(userRepository.findById(v.getIdresp()).get());
-        clubsRepository.save(clubs);
+    public void update(Long id, SalleRequest v) {
+        Salle salle = salleRepository.findById(id).get();
+        salle.setName(v.getName());
+        salle.setLocal(v.getLocal());
+        salleRepository.save(salle);
     }
 
     @Override
     public void delete(Long id) {
-        Clubs Clubs = clubsRepository.findById(id).get();
+        Salle salle = salleRepository.findById(id).get();
 
-        clubsRepository.delete(Clubs);
+        salleRepository.delete(salle);
     }
 
 

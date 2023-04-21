@@ -1,4 +1,4 @@
-package com.bezkoder.springjwt.services;
+package com.bezkoder.springjwt.Services;
 
 import com.bezkoder.springjwt.exeption.FileStorageException;
 import com.bezkoder.springjwt.exeption.MyFileNotFoundException;
@@ -28,7 +28,8 @@ public class FileStorageService {
     @Autowired
     private UserRepository userRepository;
 
-    private final Path fileStorageLocation;
+   private final Path fileStorageLocation;
+
 
     @Autowired
     public FileStorageService(FileStorageProperties fileStorageProperties) {
@@ -42,33 +43,6 @@ public class FileStorageService {
     }
 
 
-    public String storeCVuser(long id, MultipartFile file) {
-        User j = userRepository.findById(id).get();
-
-        String filor = StringUtils.cleanPath(file.getOriginalFilename());
-        int position = filor.indexOf(".");
-        String ext = filor.substring(position, filor.length());
-
-        String fileName = j.getFirstname() + j.getId().toString() + ext;
-        j.setCv(fileName);
-        userRepository.save(j);
-        try {
-            // Check if the file's name contains invalid characters
-            if (fileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
-            }
-            // Copy file to the target location (Replacing existing file with the same name)
-
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            //Path targetLocation = this.fileStorageLocation.getFileName(fileName);
-
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
-            return fileName;
-        } catch (IOException ex) {
-            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-        }
-    }
     public String storeImageUser(long id, MultipartFile file) {
         User j = userRepository.findById(id).get();
 

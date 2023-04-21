@@ -1,11 +1,10 @@
 package com.bezkoder.springjwt.Services;
 
 
-import com.bezkoder.springjwt.models.Clubs;
-import com.bezkoder.springjwt.models.Clubs;
-import com.bezkoder.springjwt.payload.request.ClubsRequest;
-import com.bezkoder.springjwt.repository.ClubsRepository;
-import com.bezkoder.springjwt.repository.ClubsRepository;
+
+import com.bezkoder.springjwt.models.Materiel;
+import com.bezkoder.springjwt.payload.request.MaterielRequest;
+import com.bezkoder.springjwt.repository.MaterielRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,47 +12,47 @@ import java.util.List;
 
 
 @Service
-public class ClubService implements IClubService {
+public class MaterielService implements IMaterielService {
     
     @Autowired
-    ClubsRepository clubsRepository;
+    MaterielRepository materielRepository;
     
 
     @Override
-    public List<Clubs> findall() {
-        return clubsRepository.findAll();
+    public List<Materiel> findall() {
+        return materielRepository.findAll();
     }
 
     @Override
-    public Clubs findbyId(Long id) {
-        return (Clubs) clubsRepository.findById(id).get();
+    public Materiel findbyId(Long id) {
+        return (Materiel) materielRepository.findById(id).get();
     }
 
 
 
 
     @Override
-    public void add(ClubsRequest v) {
-        Clubs clubs = new Clubs();
-       clubs.setName(v.getName());
-       clubs.setNbmembers(v.getNbmembers());
-        clubsRepository.save(clubs);
+    public void add(MaterielRequest v) {
+        Materiel Materiel = new Materiel();
+       Materiel.setName(v.getName());
+       Materiel.setQuantite(v.getQuantite());
+        materielRepository.save(Materiel);
 
     }
 
     @Override
-    public void update(Long id, ClubsRequest v) {
-        Clubs clubs = clubsRepository.findById(id).get();
-        clubs.setName(v.getName());
-        clubs.setNbmembers(v.getNbmembers());
-        clubsRepository.save(clubs);
+    public void update(Long id, MaterielRequest v) {
+        Materiel Materiel = materielRepository.findById(id).get();
+        Materiel.setName(v.getName());
+        Materiel.setQuantite(v.getQuantite());
+        materielRepository.save(Materiel);
     }
 
     @Override
     public void delete(Long id) {
-        Clubs Clubs = clubsRepository.findById(id).get();
+        Materiel Materiel = materielRepository.findById(id).get();
 
-        clubsRepository.delete(Clubs);
+        materielRepository.delete(Materiel);
     }
 
 

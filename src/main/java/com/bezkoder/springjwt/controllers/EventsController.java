@@ -1,11 +1,11 @@
 package com.bezkoder.springjwt.controllers;
 
 
-import com.bezkoder.springjwt.Services.IVehiculeService;
 
-import com.bezkoder.springjwt.models.Vehicule;
+import com.bezkoder.springjwt.models.Events;
 
-import com.bezkoder.springjwt.payload.request.VehiculeRequest;
+import com.bezkoder.springjwt.repository.EventsRepository;
+import com.bezkoder.springjwt.repository.MaterielRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,18 +14,20 @@ import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/vehicule")
-public class VehicueleController {
+@RequestMapping("/api/events")
+public class EventsController {
 
+	/*@Autowired
+	IVehiculeService iVehiculeService;*/
 	@Autowired
-	IVehiculeService iVehiculeService;
+	EventsRepository eventsRepository;
 
 	@GetMapping("/all")
-	public List<Vehicule> all() {
-		return iVehiculeService.findall();
+	public List<Events> all() {
+		return eventsRepository.findAll();
 	}
 
-	@GetMapping("/find/{id}")
+	/*@GetMapping("/find/{id}")
 	public Vehicule find(@PathVariable("id") long id)
 	{
 		Vehicule v=iVehiculeService.findbyId(id);
@@ -48,5 +50,5 @@ public class VehicueleController {
 	public String delete(@PathVariable("id") long id ) {
 		iVehiculeService.delete(id);
 		return "oki";
-	}
+	}*/
 }

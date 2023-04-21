@@ -1,5 +1,6 @@
 package com.bezkoder.springjwt.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,9 +26,13 @@ public class Clubs {
   private String name;
 
   private int nbmembers;
+  private String image;
 
 
-
+  @OneToOne
+  @JsonIgnore
+  @JoinColumn(name = "responsable_id")
+  private User user;
 
   public Clubs() {
   }

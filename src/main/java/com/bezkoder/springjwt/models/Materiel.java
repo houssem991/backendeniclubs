@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @AllArgsConstructor
 @ToString
@@ -24,7 +25,8 @@ public class Materiel {
 
   private int quantite;
 
-
+  @OneToMany(mappedBy = "materiel",fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+  private Set<Events_Materiel> events_materiels;
 
   public Materiel() {
   }

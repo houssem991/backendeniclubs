@@ -6,6 +6,7 @@ import com.bezkoder.springjwt.models.Clubs;
 import com.bezkoder.springjwt.payload.request.ClubsRequest;
 import com.bezkoder.springjwt.repository.ClubsRepository;
 import com.bezkoder.springjwt.repository.ClubsRepository;
+import com.bezkoder.springjwt.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,8 @@ public class ClubService implements IClubService {
     
     @Autowired
     ClubsRepository clubsRepository;
+    @Autowired
+    UserRepository userRepository;
     
 
     @Override
@@ -37,6 +40,7 @@ public class ClubService implements IClubService {
         Clubs clubs = new Clubs();
        clubs.setName(v.getName());
        clubs.setNbmembers(v.getNbmembers());
+       clubs.setUser(userRepository.findById(v.getIdresp()).get());
         clubsRepository.save(clubs);
 
     }
@@ -46,6 +50,7 @@ public class ClubService implements IClubService {
         Clubs clubs = clubsRepository.findById(id).get();
         clubs.setName(v.getName());
         clubs.setNbmembers(v.getNbmembers());
+        clubs.setUser(userRepository.findById(v.getIdresp()).get());
         clubsRepository.save(clubs);
     }
 

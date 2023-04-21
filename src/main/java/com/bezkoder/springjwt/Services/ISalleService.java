@@ -1,19 +1,18 @@
 package com.bezkoder.springjwt.Services;
 
 
-
-
 import com.bezkoder.springjwt.models.Clubs;
-
+import com.bezkoder.springjwt.models.Salle;
 import com.bezkoder.springjwt.payload.request.ClubsRequest;
+import com.bezkoder.springjwt.payload.request.SalleRequest;
 
 import java.util.List;
 
-public interface IClubService {
+public interface ISalleService {
 
-    List<Clubs> findall();
-    Clubs findbyId(Long id);
-    void add(ClubsRequest v);
-    void update (Long id , ClubsRequest v);
+    List<Salle> findall();
+    Salle findbyId(Long id);
+    void add(SalleRequest v);
+    void update (Long id , SalleRequest v);
     void delete (Long id);
 }

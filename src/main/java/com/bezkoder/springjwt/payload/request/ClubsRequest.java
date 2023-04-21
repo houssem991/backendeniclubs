@@ -15,7 +15,7 @@ public class ClubsRequest {
 	private String name;
 
 	private int nbmembers;
-
+    private long idresp;
 
 
 }
