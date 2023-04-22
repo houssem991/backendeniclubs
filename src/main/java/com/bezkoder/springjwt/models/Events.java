@@ -12,7 +12,7 @@ import java.util.Set;
 
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
+
 @Getter
 @Setter
 @Entity
@@ -34,6 +34,7 @@ public class Events {
 
 
   @OneToMany(mappedBy = "events",fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+
   private Set<Events_Materiel> events_materiels;
   @ManyToOne()
   @JsonIgnore

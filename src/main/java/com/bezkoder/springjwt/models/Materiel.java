@@ -1,5 +1,8 @@
 package com.bezkoder.springjwt.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,11 +12,11 @@ import java.util.Set;
 
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
 @Getter
 @Setter
 @Entity
 @Table(name = "Materiel")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Materiel {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +28,8 @@ public class Materiel {
 
   private int quantite;
 
-  @OneToMany(mappedBy = "materiel",fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "materiel", cascade = CascadeType.ALL,orphanRemoval = true)
+  @JsonManagedReference
   private Set<Events_Materiel> events_materiels;
 
   public Materiel() {

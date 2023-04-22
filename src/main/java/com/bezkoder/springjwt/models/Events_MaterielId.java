@@ -8,7 +8,6 @@ import java.io.Serializable;
 
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
 @Getter
 @Setter
 @Embeddable

@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.Set;
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
 @Getter
 @Setter
 @Entity

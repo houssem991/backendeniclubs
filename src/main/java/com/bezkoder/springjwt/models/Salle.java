@@ -9,11 +9,10 @@ import java.util.Set;
 
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
 @Getter
 @Setter
 @Entity
-@Table(name = "Salle")
+@Table(name = "salle")
 public class Salle {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -14,6 +14,6 @@ public interface IEventMaterielService {
     List<Events_Materiel> findall();
     Optional<Events_Materiel> findbyId(Long idevent,Long idMateriel);
     void add(EventMaterielRequest v);
-    void update (Long id , EventMaterielRequest v);
+    void update (EventMaterielRequest v);
     void delete (Long idevent,Long idMateriel);
 }

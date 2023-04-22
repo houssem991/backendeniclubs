@@ -57,7 +57,7 @@ public class EventMaterielService implements IEventMaterielService {
     }
 
     @Override
-    public void update(Long id, EventMaterielRequest v) {
+    public void update(EventMaterielRequest v) {
 
         Events_MaterielId events_materielId=new Events_MaterielId(v.getIdevent(),v.getIdmateriel());
         Events_Materiel events_materiel= eventMaterielRepository.findById(events_materielId).get();

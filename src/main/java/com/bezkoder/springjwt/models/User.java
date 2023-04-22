@@ -13,7 +13,6 @@ import javax.validation.constraints.Size;
 @Setter
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
 @Entity
 @Table(name = "users", 
     uniqueConstraints = { 

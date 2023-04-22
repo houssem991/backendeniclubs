@@ -2,14 +2,20 @@ package com.bezkoder.springjwt.controllers;
 
 
 
+import com.bezkoder.springjwt.models.Clubs;
 import com.bezkoder.springjwt.models.Events;
 
+import com.bezkoder.springjwt.models.Materiel;
+import com.bezkoder.springjwt.models.Salle;
+import com.bezkoder.springjwt.repository.ClubsRepository;
 import com.bezkoder.springjwt.repository.EventsRepository;
+
 import com.bezkoder.springjwt.repository.MaterielRepository;
+import com.bezkoder.springjwt.repository.SalleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -20,10 +26,10 @@ public class EventsController {
 	/*@Autowired
 	IVehiculeService iVehiculeService;*/
 	@Autowired
-	EventsRepository eventsRepository;
+	SalleRepository eventsRepository;
 
 	@GetMapping("/all")
-	public List<Events> all() {
+	public List<Salle> all() {
 		return eventsRepository.findAll();
 	}
 
