@@ -12,8 +12,10 @@ import javax.validation.Valid;
 import com.bezkoder.springjwt.Services.FileStorageService;
 import com.bezkoder.springjwt.Services.IUserService;
 
+import com.bezkoder.springjwt.models.Clubs;
 import com.bezkoder.springjwt.payload.request.UpdateRequest;
 
+import com.bezkoder.springjwt.repository.ClubsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -49,6 +51,8 @@ public class AuthController {
 
   @Autowired
   RoleRepository roleRepository;
+  @Autowired
+  ClubsRepository clubsRepository;
   @Autowired
 
   IUserService iUserService;
@@ -99,9 +103,26 @@ public class AuthController {
     }
 
     // Create new user's account
-    User user = new User(signUpRequest.getUsername(),
-            signUpRequest.getEmail(),
-            encoder.encode(signUpRequest.getPassword()));
+    User user = new User();
+   user.setUsername(signUpRequest.getUsername());
+       user.setEmail(signUpRequest.getEmail());
+       user.setPassword(encoder.encode(signUpRequest.getPassword()));
+            user.setFirstname(signUpRequest.getFirstname());
+            user.setLastname(  signUpRequest.getLastname());
+            user.setCin(signUpRequest.getCin());
+            user.setDatenaissance(signUpRequest.getDatenaissance());
+
+            Set<Clubs> clubs =new HashSet<>();
+            signUpRequest.getNameclubs().forEach(c->{
+              Clubs club =clubsRepository.findByName(c).get();
+              clubs.add(club);
+
+            });
+            user.setClubs(clubs);
+
+
+
+
 
     Set<String> strRoles = signUpRequest.getRole();
     Set<Role> roles = new HashSet<>();
@@ -113,6 +134,12 @@ public class AuthController {
     } else {
       strRoles.forEach(role -> {
         switch (role) {
+          case "resp":
+            Role resp = roleRepository.findByName(ERole.ROLE_RESPONSABLE_CLUB)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(resp);
+
+            break;
           case "admin":
             Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));

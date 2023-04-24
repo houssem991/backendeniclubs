@@ -2,20 +2,15 @@ package com.bezkoder.springjwt.controllers;
 
 
 
-import com.bezkoder.springjwt.models.Clubs;
+import com.bezkoder.springjwt.Services.IEventsService;
 import com.bezkoder.springjwt.models.Events;
+import com.bezkoder.springjwt.payload.request.EventsRequest;
 
-import com.bezkoder.springjwt.models.Materiel;
-import com.bezkoder.springjwt.models.Salle;
-import com.bezkoder.springjwt.repository.ClubsRepository;
-import com.bezkoder.springjwt.repository.EventsRepository;
-
-import com.bezkoder.springjwt.repository.MaterielRepository;
-import com.bezkoder.springjwt.repository.SalleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -23,38 +18,47 @@ import java.util.List;
 @RequestMapping("/api/events")
 public class EventsController {
 
-	/*@Autowired
-	IVehiculeService iVehiculeService;*/
 	@Autowired
-	SalleRepository eventsRepository;
+	IEventsService iEventsService;
+
 
 	@GetMapping("/all")
-	public List<Salle> all() {
-		return eventsRepository.findAll();
+	public List<Events> all() {
+		return iEventsService.findall();
 	}
 
-	/*@GetMapping("/find/{id}")
-	public Vehicule find(@PathVariable("id") long id)
+	@GetMapping("/find/{id}")
+	public Events find(@PathVariable("id") long id)
 	{
-		Vehicule v=iVehiculeService.findbyId(id);
+		Events v=iEventsService.findbyId(id);
 
 		return v;
 	}
 
 
 	@PostMapping("/add")
-	public String add(@Valid @RequestBody VehiculeRequest v) {
-		iVehiculeService.add(v);
+	public String add(@Valid @RequestBody EventsRequest v) {
+		iEventsService.add(v);
 		return "oki";
 	}
 	@PutMapping("/update/{id}")
-	public String update(@PathVariable("id") long id ,@Valid @RequestBody VehiculeRequest p) {
-		iVehiculeService.update(id , p);
-		return "vehicule modifieé avec succes";
+	public String update(@PathVariable("id") long id ,@Valid @RequestBody EventsRequest p) {
+		iEventsService.update(id , p);
+		return "Event modifieé avec succes";
 	}
 	@DeleteMapping("/delete/{id}")
 	public String delete(@PathVariable("id") long id ) {
-		iVehiculeService.delete(id);
+		iEventsService.delete(id);
 		return "oki";
-	}*/
+	}
+	@PutMapping("/sendA/{iduser}/{idevent}")
+	public String sendAcceptation(@PathVariable("iduser") long iduser,@PathVariable("idevent") long idevent ) throws Exception {
+		return	iEventsService.sendacceptation(iduser,idevent);
+
+	}
+	@PutMapping("/sendR/{iduser}/{idevent}")
+	public String sendRefus(@PathVariable("iduser") long iduser,@PathVariable("idevent") long idevent ) throws Exception {
+		return	iEventsService.sendRefus(iduser,idevent);
+
+	}
 }

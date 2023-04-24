@@ -7,6 +7,8 @@ import lombok.Setter;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -18,8 +20,9 @@ public class EventsRequest {
 	private String name;
 
 	private String description;
-
-	private EEvent etat;
+	private LocalDate date;
+	private long idsalle;
+	private Set<String> nameClubs;
 
 
 

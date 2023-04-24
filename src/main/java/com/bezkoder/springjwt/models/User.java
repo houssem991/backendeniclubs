@@ -2,6 +2,7 @@ package com.bezkoder.springjwt.models;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,6 +30,8 @@ public class User {
   private String username;
   private String firstname;
   private String lastname;
+  private String cin;
+  private LocalDate datenaissance;
 
   @NotBlank
   @Size(max = 50)
@@ -55,11 +58,15 @@ public class User {
   public User() {
   }
 
-  public User(String username, String email, String password) {
+  public User( @NotBlank @Size(max = 20) String username, String firstname, String lastname, String cin, LocalDate datenaissance, @NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(max = 120) String password) {
+
     this.username = username;
+    this.firstname = firstname;
+    this.lastname = lastname;
+    this.cin = cin;
+    this.datenaissance = datenaissance;
     this.email = email;
     this.password = password;
+
   }
-
-
 }
