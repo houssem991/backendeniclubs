@@ -112,7 +112,7 @@ public class AuthController {
             user.setCin(signUpRequest.getCin());
             user.setDatenaissance(signUpRequest.getDatenaissance());
 
-            Set<Clubs> clubs =new HashSet<>();
+           Set<Clubs> clubs =new HashSet<>();
             signUpRequest.getNameclubs().forEach(c->{
               Clubs club =clubsRepository.findByName(c).get();
               clubs.add(club);
