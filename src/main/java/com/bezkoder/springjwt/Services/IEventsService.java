@@ -12,7 +12,7 @@ public interface IEventsService {
 
     List<EventsResponse> findallenattente();
     List<EventsResponse> findallRepondu();
-    List<EventsResponse> findallnonvalide(String username);
+    List<EventsResponse> findallnonvalide(Long id);
 
 
     EventsResponse findbyId(Long id);

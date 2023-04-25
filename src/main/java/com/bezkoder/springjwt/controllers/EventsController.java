@@ -31,9 +31,9 @@ public class EventsController {
 	public List<EventsResponse> allR() {
 		return iEventsService.findallRepondu();
 	}
-	@GetMapping("/allnv/{username}")
-	public List<EventsResponse> allNV(@PathVariable("username") String username) {
-		return iEventsService.findallnonvalide(username);
+	@GetMapping("/allnv/{id}")
+	public List<EventsResponse> allNV(@PathVariable("id") long id) {
+		return iEventsService.findallnonvalide(id);
 	}
 
 	@GetMapping("/find/{id}")

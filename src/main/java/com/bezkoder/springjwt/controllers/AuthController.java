@@ -1,11 +1,11 @@
 package com.bezkoder.springjwt.controllers;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import org.springframework.core.io.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 
@@ -17,7 +17,9 @@ import com.bezkoder.springjwt.payload.request.UpdateRequest;
 
 import com.bezkoder.springjwt.payload.response.UserResponse;
 import com.bezkoder.springjwt.repository.ClubsRepository;
+import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -159,7 +161,7 @@ public class AuthController {
     user.setRoles(roles);
     userRepository.save(user);
 
-    return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    return ResponseEntity.ok(new MessageResponse(user.getId().toString()));
   }
   @GetMapping("/all")
   public List<User> all() {
@@ -167,18 +169,18 @@ public class AuthController {
   }
 
   @GetMapping("/find/{id}")
-  public User find(@PathVariable("id") long id)
+  public UserResponse find(@PathVariable("id") long id)
   {
-    User u=iUserService.findbyId(id);
+    UserResponse u=iUserService.findbyIddd(id);
 
 
 
     return u;
   }
-  @GetMapping("/findu/{username}")
-  public UserResponse findU(@PathVariable("username") String username)
+  @GetMapping("/findu/{id}")
+  public UserResponse findU(@PathVariable("id") long id)
   {
-    UserResponse u=iUserService.findbyUsername(username);
+    UserResponse u =iUserService.findbyIdd(id);
 
 
 
@@ -190,13 +192,36 @@ public class AuthController {
     return "oki";
   }
   @PutMapping("/update/{id}")
-  public ResponseEntity<?> UpdateUser(@Valid @RequestBody UpdateRequest updateRequest, @PathVariable("id") long id) {
+  public ResponseEntity<?> UpdateUser(@Valid @RequestBody SignupRequest signUpRequest, @PathVariable("id") long id) {
 
     User user= userRepository.findById(id).get();
-    user.setUsername(updateRequest.getUsername());
-    user.setEmail(updateRequest.getEmail());
+   /* if(!Objects.equals(user.getEmail(), signUpRequest.getEmail())){
+      user.setEmail(signUpRequest.getEmail());
+    }*/
+    if (!Objects.equals(user.getUsername(), signUpRequest.getUsername())){
+      user.setUsername(signUpRequest.getUsername());
+    }
 
-    Set<String> strRoles = updateRequest.getRole();
+
+    user.setPassword(encoder.encode(signUpRequest.getPassword()));
+    user.setFirstname(signUpRequest.getFirstname());
+    user.setLastname(  signUpRequest.getLastname());
+    user.setCin(signUpRequest.getCin());
+    user.setDatenaissance(signUpRequest.getDatenaissance());
+
+          /* Set<Clubs> clubs =new HashSet<>();
+            signUpRequest.getNameclubs().forEach(c->{
+              Clubs club =clubsRepository.findByName(c).get();
+              clubs.add(club);
+
+            });
+            user.setClubs(clubs);*/
+
+
+
+
+
+    Set<String> strRoles = signUpRequest.getRole();
     Set<Role> roles = new HashSet<>();
 
     if (strRoles == null) {
@@ -206,13 +231,19 @@ public class AuthController {
     } else {
       strRoles.forEach(role -> {
         switch (role) {
+          case "resp":
+            Role resp = roleRepository.findByName(ERole.ROLE_RESPONSABLE_CLUB)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(resp);
 
+            break;
           case "admin":
             Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(adminRole);
 
             break;
+
           default:
             Role userRole = roleRepository.findByName(ERole.ROLE_Membre)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -220,16 +251,11 @@ public class AuthController {
         }
       });
     }
+
     user.setRoles(roles);
-
-
-
-
-
-
     userRepository.save(user);
 
-    return ResponseEntity.ok(new MessageResponse("User updated successfully!"));
+    return ResponseEntity.ok(new MessageResponse(user.getId().toString()));
   }
   @PostMapping("/uploadImage/{id}")
   public String uploadImage(@PathVariable("id") long id, @RequestParam("file") MultipartFile file) {
@@ -241,5 +267,28 @@ public class AuthController {
             .toUriString();
 
     return "le fichier a téléchargé avec succès";
+  }
+  @GetMapping("/downloadFile/{fileName:.+}")
+  public ResponseEntity<Resource> downloadFile( @PathVariable String fileName, HttpServletRequest request) {
+    // Load file as Resource
+    Resource resource = fileStorageService.loadFileAsResource(fileName);
+
+    // Try to determine file's content type
+    String contentType = null;
+    try {
+      contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+    } catch (IOException ex) {
+      // logger.info("Could not determine file type.");
+    }
+
+    // Fallback to the default content type if type could not be determined
+    if(contentType == null) {
+      contentType = "application/octet-stream";
+    }
+
+    return ResponseEntity.ok()
+            .contentType(MediaType.parseMediaType(contentType))
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+            .body(resource);
   }
 }

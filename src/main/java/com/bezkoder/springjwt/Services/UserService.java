@@ -39,9 +39,10 @@ class UserService implements IUserService {
         return val;
     }
     @Override
-    public UserResponse findbyUsername(String username) {
-        User val = userRepository.findByUsername(username).get();
+    public UserResponse findbyIdd(Long id) {
+        User val = userRepository.findById(id).get();
         UserResponse u = new UserResponse();
+        u.setId(val.getId());
         u.setUsername(val.getUsername());
         u.setImage(val.getImage());
         u.setRoles(val.getRoles());
@@ -53,6 +54,22 @@ class UserService implements IUserService {
         u.setId(val.getId());
         u.setLastname(val.getLastname());
         u.setIdclub(val.getClub().getId());
+
+        return u;
+    }
+    @Override
+    public UserResponse findbyIddd(Long id) {
+        User val = userRepository.findById(id).get();
+        UserResponse u = new UserResponse();
+        u.setId(val.getId());
+        u.setUsername(val.getUsername());
+        u.setImage(val.getImage());
+        u.setRoles(val.getRoles());
+        u.setEmail(val.getEmail());
+        u.setFirstname(val.getFirstname());
+        u.setDatenaissance(val.getDatenaissance());
+        u.setCin(val.getCin());
+        u.setLastname(val.getLastname());
 
         return u;
     }

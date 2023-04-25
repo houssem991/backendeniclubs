@@ -45,19 +45,8 @@ public class ClubService implements IClubService {
     }
     @Override
     public List<User> findresp() {
-        List<User> u =  userRepository.findAll();
-        List<Clubs> c =clubsRepository.findAll();
-        List<User> resp=new ArrayList<>();
-        c.forEach(val->{
-            u.forEach(val1->{
-                val1.getRoles().forEach(val3->{
-                    if(!val1.getId().equals(val.getUser().getId()) && val3.getName()== ERole.ROLE_RESPONSABLE_CLUB){
-                        System.out.println(val1.getId()+" "+val.getUser().getId());
-                        resp.add(val1);
-                    }
-                });
-            } );
-            });
+        List<User> resp =  userRepository.findallresp();
+
 
         return resp;
     }

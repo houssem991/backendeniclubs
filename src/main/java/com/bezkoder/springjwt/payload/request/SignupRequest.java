@@ -17,7 +17,7 @@ public class SignupRequest {
   private String lastname;
   private String cin;
   private LocalDate datenaissance;
-  private Set<String> nameclubs;
+
   @NotBlank
   @Size(max = 50)
   @Email

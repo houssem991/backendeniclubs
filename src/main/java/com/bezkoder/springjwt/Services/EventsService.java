@@ -91,9 +91,9 @@ public class EventsService implements IEventsService {
     }
 
     @Override
-    public List<EventsResponse> findallnonvalide(String username) {
+    public List<EventsResponse> findallnonvalide(Long id) {
         List<Events> events=eventsRepository.findAll();
-        UserResponse u = iUserService.findbyUsername(username);
+        UserResponse u = iUserService.findbyIdd(id);
         List<EventsResponse> e2 =new ArrayList<>();
         events.forEach(val->{
             val.getClubs().forEach(val1->{
@@ -158,21 +158,42 @@ public class EventsService implements IEventsService {
         event.setEtat(EEvent.EnAttente);
         Set<Clubs> clubs= new HashSet<>();
         Set<Materiel> matt =new HashSet<>();
+
+
         v.getNameClubs().forEach(club->{
             Clubs c = clubsRepository.findByName(club).get();
             clubs.add(c);
+
         });
         v.getNameMateriels().forEach( mat->{
             Materiel m = materielRepository.findByName(mat).get();
             matt.add(m);
 
         });
+
         event.setHeure(v.getHeure());
         event.setMateriels(matt);
         event.setClubs(clubs);
         event.setSalle(salleRepository.findById(v.getIdsalle()).get());
         eventsRepository.save(event);
+        List<User> u = userRepository.admin();
+        u.forEach(val->{
+                    final String[] nameclubs = {""};
+                    final String[] nameresp = {""};
+            v.getNameClubs().forEach(va->{
+                nameclubs[0] +=va+",";
+                Clubs c = clubsRepository.findByName(va).get();
+                nameresp[0] += c.getUser().getUsername()+",";
+            });
+                    try {
+                        emailSenderService.senddemand(val.getEmail(),v.getName(),nameclubs,nameresp);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
 
+
+                }
+        );
     }
 
     @Override

@@ -64,16 +64,16 @@ public class EmailSenderService {
 
 
     }
-    public void senddemand(String email , String nameevent ,String nameclub, String nameresp ,float score) throws Exception{
+    public void senddemand(String email , String nameevent , String[] nameclub, String[] nameresp ) throws Exception{
 
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper mailMessage = new MimeMessageHelper(message, true);
-        mailMessage.setFrom(email);
-        mailMessage.setTo("housssembenmoussa@gmail.com");
+        mailMessage.setFrom("housssembenmoussa@gmail.com");
+        mailMessage.setTo(email);
         mailMessage.setSubject("Demande de l'evenemnet "+nameevent);
         String htmlMsg = "<h2>  Madame,Monsieur  </h2>"+
-                "<h4> Une demande d un evenement "+nameevent+" a été deposé par le responsable du club "+nameclub+nameresp+"." +
-                " avec un score de "+score+"</h4>"+
+                "<h4> Une demande d un evenement "+nameevent+" a été deposé par le responsable du club "+nameclub[0]+" "+nameresp[0]+"." +
+
                 "<p>Merci de consulter et repondre à cette demande</p> ";
 
         message.setContent(htmlMsg, "text/html");

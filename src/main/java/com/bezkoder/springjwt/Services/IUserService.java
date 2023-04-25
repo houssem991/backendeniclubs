@@ -11,8 +11,8 @@ public interface IUserService {
     List<User> findall();
 
     User findbyId(Long id);
-    UserResponse findbyUsername(String username);
-
+    UserResponse findbyIdd(Long id);
+    UserResponse findbyIddd(Long id);
 
     void delete (Long id );
 }
