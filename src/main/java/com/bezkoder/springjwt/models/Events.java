@@ -33,11 +33,8 @@ public class Events {
   private String heure;
 
 
-  @OneToMany(mappedBy = "events",fetch = FetchType.LAZY , cascade = CascadeType.ALL)
 
-  private Set<Events_Materiel> events_materiels;
   @ManyToOne()
-  @JsonIgnore
   @JoinColumn(name = "Salle_id")
   private Salle salle;
   @ManyToMany(fetch = FetchType.LAZY)
@@ -45,6 +42,11 @@ public class Events {
           joinColumns = @JoinColumn(name = "event_id"),
           inverseJoinColumns = @JoinColumn(name = "clubs_id"))
   private Set<Clubs> clubs = new HashSet<>();
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(  name = "events_materiel",
+          joinColumns = @JoinColumn(name = "event_id"),
+          inverseJoinColumns = @JoinColumn(name = "materiel_id"))
+  private Set<Materiel> materiels = new HashSet<>();
   public Events() {
   }
 

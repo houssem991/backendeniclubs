@@ -1,5 +1,6 @@
 package com.bezkoder.springjwt.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class Salle {
   private String local;
 
   @OneToMany(mappedBy = "salle",fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+  @JsonIgnore
   private Set<Events> event;
 
   public Salle() {

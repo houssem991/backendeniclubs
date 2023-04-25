@@ -3,13 +3,17 @@ package com.bezkoder.springjwt.Services;
 
 import com.bezkoder.springjwt.models.Clubs;
 import com.bezkoder.springjwt.models.Clubs;
+import com.bezkoder.springjwt.models.ERole;
+import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.payload.request.ClubsRequest;
+import com.bezkoder.springjwt.payload.response.ClubsResponse;
 import com.bezkoder.springjwt.repository.ClubsRepository;
 import com.bezkoder.springjwt.repository.ClubsRepository;
 import com.bezkoder.springjwt.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,8 +27,39 @@ public class ClubService implements IClubService {
     
 
     @Override
-    public List<Clubs> findall() {
-        return clubsRepository.findAll();
+    public List<ClubsResponse> findall() {
+       List<Clubs>  c =clubsRepository.findAll();
+       List<ClubsResponse> cc=new ArrayList<>();
+       c.forEach(val->{
+           ClubsResponse ccc = new ClubsResponse();
+           ccc.setId(val.getId());
+           ccc.setName(val.getName());
+           ccc.setImage(val.getImage());
+           ccc.setNbmembers(val.getNbmembers());
+           ccc.setNameresp(val.getUser().getUsername());
+           cc.add(ccc);
+           });
+
+
+        return cc;
+    }
+    @Override
+    public List<User> findresp() {
+        List<User> u =  userRepository.findAll();
+        List<Clubs> c =clubsRepository.findAll();
+        List<User> resp=new ArrayList<>();
+        c.forEach(val->{
+            u.forEach(val1->{
+                val1.getRoles().forEach(val3->{
+                    if(!val1.getId().equals(val.getUser().getId()) && val3.getName()== ERole.ROLE_RESPONSABLE_CLUB){
+                        System.out.println(val1.getId()+" "+val.getUser().getId());
+                        resp.add(val1);
+                    }
+                });
+            } );
+            });
+
+        return resp;
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.bezkoder.springjwt.Services;
 
 import com.bezkoder.springjwt.models.User;
 
+import com.bezkoder.springjwt.payload.response.UserResponse;
 import com.bezkoder.springjwt.repository.RoleRepository;
 import com.bezkoder.springjwt.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,24 @@ class UserService implements IUserService {
 
         return val;
     }
+    @Override
+    public UserResponse findbyUsername(String username) {
+        User val = userRepository.findByUsername(username).get();
+        UserResponse u = new UserResponse();
+        u.setUsername(val.getUsername());
+        u.setImage(val.getImage());
+        u.setRoles(val.getRoles());
+        u.setPassword(val.getPassword());
+        u.setEmail(val.getEmail());
+        u.setFirstname(val.getFirstname());
+        u.setDatenaissance(val.getDatenaissance());
+        u.setCin(val.getCin());
+        u.setId(val.getId());
+        u.setLastname(val.getLastname());
+        u.setIdclub(val.getClub().getId());
 
+        return u;
+    }
 
 
 

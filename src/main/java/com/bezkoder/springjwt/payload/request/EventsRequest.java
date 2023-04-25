@@ -21,8 +21,10 @@ public class EventsRequest {
 
 	private String description;
 	private LocalDate date;
+	private String heure;
 	private long idsalle;
 	private Set<String> nameClubs;
+	private Set<String> nameMateriels;
 
 
 

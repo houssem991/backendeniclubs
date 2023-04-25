@@ -28,9 +28,6 @@ public class Materiel {
 
   private int quantite;
 
-  @OneToMany(mappedBy = "materiel", cascade = CascadeType.ALL,orphanRemoval = true)
-  @JsonManagedReference
-  private Set<Events_Materiel> events_materiels;
 
   public Materiel() {
   }

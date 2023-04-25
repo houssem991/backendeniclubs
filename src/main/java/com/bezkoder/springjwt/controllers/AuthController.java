@@ -15,6 +15,7 @@ import com.bezkoder.springjwt.Services.IUserService;
 import com.bezkoder.springjwt.models.Clubs;
 import com.bezkoder.springjwt.payload.request.UpdateRequest;
 
+import com.bezkoder.springjwt.payload.response.UserResponse;
 import com.bezkoder.springjwt.repository.ClubsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -112,13 +113,13 @@ public class AuthController {
             user.setCin(signUpRequest.getCin());
             user.setDatenaissance(signUpRequest.getDatenaissance());
 
-           Set<Clubs> clubs =new HashSet<>();
+          /* Set<Clubs> clubs =new HashSet<>();
             signUpRequest.getNameclubs().forEach(c->{
               Clubs club =clubsRepository.findByName(c).get();
               clubs.add(club);
 
             });
-            user.setClubs(clubs);
+            user.setClubs(clubs);*/
 
 
 
@@ -169,9 +170,15 @@ public class AuthController {
   public User find(@PathVariable("id") long id)
   {
     User u=iUserService.findbyId(id);
-    UpdateRequest up = new UpdateRequest();
-    up.setUsername(u.getUsername());
-    up.setEmail(u.getEmail());
+
+
+
+    return u;
+  }
+  @GetMapping("/findu/{username}")
+  public UserResponse findU(@PathVariable("username") String username)
+  {
+    UserResponse u=iUserService.findbyUsername(username);
 
 
 

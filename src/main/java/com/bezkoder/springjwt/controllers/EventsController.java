@@ -6,6 +6,7 @@ import com.bezkoder.springjwt.Services.IEventsService;
 import com.bezkoder.springjwt.models.Events;
 import com.bezkoder.springjwt.payload.request.EventsRequest;
 
+import com.bezkoder.springjwt.payload.response.EventsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,17 +23,25 @@ public class EventsController {
 	IEventsService iEventsService;
 
 
-	@GetMapping("/all")
-	public List<Events> all() {
-		return iEventsService.findall();
+	@GetMapping("/allA")
+	public List<EventsResponse> allEnattente() {
+		return iEventsService.findallenattente();
+	}
+	@GetMapping("/allr")
+	public List<EventsResponse> allR() {
+		return iEventsService.findallRepondu();
+	}
+	@GetMapping("/allnv/{username}")
+	public List<EventsResponse> allNV(@PathVariable("username") String username) {
+		return iEventsService.findallnonvalide(username);
 	}
 
 	@GetMapping("/find/{id}")
-	public Events find(@PathVariable("id") long id)
+	public EventsResponse find(@PathVariable("id") long id)
 	{
-		Events v=iEventsService.findbyId(id);
 
-		return v;
+
+		return iEventsService.findbyId(id);
 	}
 
 
@@ -51,14 +60,14 @@ public class EventsController {
 		iEventsService.delete(id);
 		return "oki";
 	}
-	@PutMapping("/sendA/{iduser}/{idevent}")
-	public String sendAcceptation(@PathVariable("iduser") long iduser,@PathVariable("idevent") long idevent ) throws Exception {
-		return	iEventsService.sendacceptation(iduser,idevent);
+	@PutMapping("/sendA/{nameuser}/{idevent}")
+	public String sendAcceptation(@PathVariable("nameuser") String nameuser,@PathVariable("idevent") long idevent ) throws Exception {
+		return	iEventsService.sendacceptation(nameuser,idevent);
 
 	}
-	@PutMapping("/sendR/{iduser}/{idevent}")
-	public String sendRefus(@PathVariable("iduser") long iduser,@PathVariable("idevent") long idevent ) throws Exception {
-		return	iEventsService.sendRefus(iduser,idevent);
+	@PutMapping("/sendR/{nameuser}/{idevent}")
+	public String sendRefus(@PathVariable("nameuser") String nameuser,@PathVariable("idevent") long idevent ) throws Exception {
+		return	iEventsService.sendRefus(nameuser,idevent);
 
 	}
 }
